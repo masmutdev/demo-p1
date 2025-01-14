@@ -1,0 +1,23 @@
+# Disable caching
+<IfModule mod_headers.c>
+    # Prevent caching of all files
+    <FilesMatch "\.(html|htm|js|css|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|otf|eot|pdf|json)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
+
+    # Prevent caching of dynamically generated content
+    Header unset ETag
+    FileETag None
+</IfModule>
+
+# Ensure mod_rewrite is enabled
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent access to the .htaccess file itself
+    <Files ".htaccess">
+        Require all denied
+    </Files>
+</IfModule>
